@@ -12,7 +12,8 @@
             LetterService myService = new LetterService();
             myService.FileGenerator(sourceDirectory);
             myService.ArchiveFiles(sourceDirectory, archiveDirectory);
-            myService.CombineLetters(sourceDirectory, outputDirectory);
+            List<string> studentIDs = myService.CombineLetters(sourceDirectory, outputDirectory);
+            myService.CreateReport(studentIDs, outputDirectory);
             Console.WriteLine("Done.");
         } 
     }

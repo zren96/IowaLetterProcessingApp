@@ -5,5 +5,6 @@ namespace IowaLetterProcessingApp
         void FileGenerator(string sourceDirectory);
         void ArchiveFiles(string sourceDirectory, string archiveDirectory);
         List<string> CombineLetters(string sourceDirectory, string outputDirectory);
+        void CreateReport(List<string> studentIDs, string outputDirectory);
     }
 }

@@ -78,6 +78,18 @@
         {
             Directory.CreateDirectory(Path.GetDirectoryName(resultFile));
             File.WriteAllText(resultFile, File.ReadAllText(inputFile1) + "\n" + File.ReadAllText(inputFile2));    
-        }        
+        }   
+
+        public void CreateReport(List<string> studentIDs, string outputDirectory)
+        {
+            string currentDate = DateTime.Now.ToString("yyyyMMdd");
+            string curPath = outputDirectory + "Report-" + currentDate + ".txt";
+            File.WriteAllText(curPath, DateTime.Now.ToString("MM/dd/yyyy") + "  Report");
+            File.AppendAllText(curPath, "\n------------------------");
+            foreach (string studentID in studentIDs)
+            {
+                File.AppendAllText(curPath, "\n" + studentID);
+            }
+        }     
     }
  }
