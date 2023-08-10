@@ -2,6 +2,12 @@
  {   
     public class LetterService : ILetterService
     {        
+
+        private Logger Log;
+        public LetterService(Logger log){
+            Log = log;
+        }
+
         public void FileGenerator(string sourceDirectory){   
             // To generate different student IDs on different dates, use the combination of 
             // studentIDs prefix and date.
@@ -13,7 +19,7 @@
             string currentPath;
             string currentStudentID;
 
-            Console.WriteLine("Now generating letter files...");
+            Log.WriteLine("Now generating letter files...");
             // Iterate over dates and create corresponding folders and files.
             foreach (string dateString in dateStrings){
                 foreach (string currentStudentIDPrefix in studentIDsPrefix){
@@ -22,7 +28,7 @@
                     currentContent = "Congratulations you are admitted " + currentStudentID;
                     currentPath = sourceDirectory + "Admission/" + dateString + "/" + currentFileName;
 
-                    Console.WriteLine("Generating " + currentPath + "...");
+                    Log.WriteLine("Generating " + currentPath + "...");
 
                     Directory.CreateDirectory(Path.GetDirectoryName(currentPath));
                     File.WriteAllText(currentPath, currentContent);
@@ -33,7 +39,7 @@
                     currentContent = "Congratulations you are offered scholarship " + currentStudentID;
                     currentPath = sourceDirectory + "Scholarship/"  + dateString + "/" + currentFileName;
 
-                    Console.WriteLine("Generating " + currentPath + "...");
+                    Log.WriteLine("Generating " + currentPath + "...");
 
                     Directory.CreateDirectory(Path.GetDirectoryName(currentPath));
                     File.WriteAllText(currentPath, currentContent);
@@ -42,7 +48,7 @@
         }
 
         public void ArchiveFiles(string sourceDirectory, string archiveDirectory){
-            Console.WriteLine("Now archiving letter files...");
+            Log.WriteLine("Now archiving letter files...");
             foreach (string dirPath in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dirPath.Replace(sourceDirectory, archiveDirectory));
@@ -50,7 +56,7 @@
 
             foreach (string filePath in Directory.GetFiles(sourceDirectory, "*.txt",SearchOption.AllDirectories))
             {
-                Console.WriteLine("Archiving " + filePath);
+                Log.WriteLine("Archiving " + filePath);
                 File.Copy(filePath, filePath.Replace(sourceDirectory, archiveDirectory), true);
             }
         }           
@@ -72,7 +78,7 @@
                 curFile = Path.GetFileName(curPath);
                 studentID = curFile.Substring(12, 8);
                 if (studentID2Path.ContainsKey(studentID)){
-                    Console.WriteLine(studentID + " has both admission and scholarship, now combining letters...");
+                    Log.WriteLine(studentID + " has both admission and scholarship, now combining letters...");
                     resultStudentIDs.Add(studentID);
                     CombineTwoLetters(studentID2Path[studentID], curPath, outputDirectory + "Combined-" + studentID + ".txt");
                 }
@@ -88,7 +94,7 @@
 
         public void CreateReport(List<string> studentIDs, string outputDirectory)
         {
-            Console.WriteLine("Now generating reports...");
+            Log.WriteLine("Now generating reports...");
             string currentDate = DateTime.Now.ToString("yyyyMMdd");
             string curPath = outputDirectory + "Report-" + currentDate + ".txt";
             File.WriteAllText(curPath, DateTime.Now.ToString("MM/dd/yyyy") + "  Report");
