@@ -12,6 +12,7 @@
             LetterService myService = new LetterService();
             myService.FileGenerator(sourceDirectory);
             myService.ArchiveFiles(sourceDirectory, archiveDirectory);
+            myService.CombineLetters(sourceDirectory, outputDirectory);
             Console.WriteLine("Done.");
         } 
     }

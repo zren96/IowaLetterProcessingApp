@@ -49,6 +49,35 @@
                 File.Copy(filePath, filePath.Replace(sourceDirectory, archiveDirectory), true);
             }
         }           
-            
+
+        public List<string> CombineLetters(string sourceDirectory, string outputDirectory)
+        {
+            Dictionary<string, string> studentID2Path = new Dictionary<string, string>();
+            string curFile;
+            string studentID;
+            List<string> res = new List<string>();
+            foreach (string curPath in Directory.GetFiles(sourceDirectory + "Admission/", "*.txt", SearchOption.AllDirectories))
+            {
+                curFile = Path.GetFileName(curPath);
+                studentID = curFile.Substring(10, 8);
+                studentID2Path[studentID] = curPath;
+            }   
+            foreach (string curPath in Directory.GetFiles(sourceDirectory + "Scholarship/", "*.txt", SearchOption.AllDirectories))
+            {
+                curFile = Path.GetFileName(curPath);
+                studentID = curFile.Substring(12, 8);
+                if (studentID2Path.ContainsKey(studentID)){
+                    res.Add(studentID);
+                    CombineTwoLetters(studentID2Path[studentID], curPath, outputDirectory + "Combined-" + studentID + ".txt");
+                }
+            } 
+            return res;  
+        }    
+
+        public void CombineTwoLetters(string inputFile1, string inputFile2, string resultFile)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(resultFile));
+            File.WriteAllText(resultFile, File.ReadAllText(inputFile1) + "\n" + File.ReadAllText(inputFile2));    
+        }        
     }
  }
