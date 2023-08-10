@@ -12,6 +12,8 @@
             string currentContent;
             string currentPath;
             string currentStudentID;
+
+            Console.WriteLine("Now generating letter files...");
             // Iterate over dates and create corresponding folders and files.
             foreach (string dateString in dateStrings){
                 foreach (string currentStudentIDPrefix in studentIDsPrefix){
@@ -30,7 +32,9 @@
                     currentFileName = "scholarship-" + currentStudentID + ".txt";
                     currentContent = "Congratulations you are offered scholarship " + currentStudentID;
                     currentPath = sourceDirectory + "Scholarship/"  + dateString + "/" + currentFileName;
+
                     Console.WriteLine("Generating " + currentPath + "...");
+
                     Directory.CreateDirectory(Path.GetDirectoryName(currentPath));
                     File.WriteAllText(currentPath, currentContent);
                 }   
@@ -38,6 +42,7 @@
         }
 
         public void ArchiveFiles(string sourceDirectory, string archiveDirectory){
+            Console.WriteLine("Now archiving letter files...");
             foreach (string dirPath in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
             {
                 Directory.CreateDirectory(dirPath.Replace(sourceDirectory, archiveDirectory));
@@ -45,7 +50,7 @@
 
             foreach (string filePath in Directory.GetFiles(sourceDirectory, "*.txt",SearchOption.AllDirectories))
             {
-                Console.WriteLine("Copying " + filePath);
+                Console.WriteLine("Archiving " + filePath);
                 File.Copy(filePath, filePath.Replace(sourceDirectory, archiveDirectory), true);
             }
         }           
@@ -55,7 +60,7 @@
             Dictionary<string, string> studentID2Path = new Dictionary<string, string>();
             string curFile;
             string studentID;
-            List<string> res = new List<string>();
+            List<string> resultStudentIDs = new List<string>();
             foreach (string curPath in Directory.GetFiles(sourceDirectory + "Admission/", "*.txt", SearchOption.AllDirectories))
             {
                 curFile = Path.GetFileName(curPath);
@@ -67,11 +72,12 @@
                 curFile = Path.GetFileName(curPath);
                 studentID = curFile.Substring(12, 8);
                 if (studentID2Path.ContainsKey(studentID)){
-                    res.Add(studentID);
+                    Console.WriteLine(studentID + " has both admission and scholarship, now combining letters...");
+                    resultStudentIDs.Add(studentID);
                     CombineTwoLetters(studentID2Path[studentID], curPath, outputDirectory + "Combined-" + studentID + ".txt");
                 }
             } 
-            return res;  
+            return resultStudentIDs;  
         }    
 
         public void CombineTwoLetters(string inputFile1, string inputFile2, string resultFile)
@@ -82,6 +88,7 @@
 
         public void CreateReport(List<string> studentIDs, string outputDirectory)
         {
+            Console.WriteLine("Now generating reports...");
             string currentDate = DateTime.Now.ToString("yyyyMMdd");
             string curPath = outputDirectory + "Report-" + currentDate + ".txt";
             File.WriteAllText(curPath, DateTime.Now.ToString("MM/dd/yyyy") + "  Report");
