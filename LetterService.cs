@@ -4,6 +4,7 @@
     {        
 
         private Logger Log;
+
         public LetterService(Logger log){
             Log = log;
         }

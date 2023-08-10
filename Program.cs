@@ -4,8 +4,7 @@
     {   
         static void Main(string[] args)
         {
-            Logger log = new Logger();
-            log.LogFilePath = DateTime.Now.ToString("yyyyMMdd") + ".log";
+            Logger log = new Logger(DateTime.Now.ToString("yyyyMMdd") + ".log");
             string baseDirectory;
             bool needGenerate = true;
             log.WriteLine("Service running...");

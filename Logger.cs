@@ -2,12 +2,17 @@
  {   
     public class Logger
     {  
-        public string LogFilePath {get; set;}
+        private string LogFilePath {get; set;}
+
+        public Logger(string logFilePath){
+            LogFilePath = logFilePath;
+        }
 
         public void WriteLine(string message)
         {
-            Console.WriteLine(message);
-            System.IO.File.AppendAllText(LogFilePath, message + "\n");
+            string displayMessage = DateTime.Now.ToString() + " " + message;
+            Console.WriteLine(displayMessage);
+            System.IO.File.AppendAllText(LogFilePath, displayMessage + "\n");
         }
     }
 }
