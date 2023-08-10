@@ -31,7 +31,7 @@
 
                     Log.WriteLine("Generating " + currentPath + "...");
 
-                    Directory.CreateDirectory(Path.GetDirectoryName(currentPath));
+                    Directory.CreateDirectory(Path.GetDirectoryName(currentPath) ?? sourceDirectory + "Admission/");
                     File.WriteAllText(currentPath, currentContent);
                 }
                 foreach (string currentStudentIDPrefix in studentIDsWithScholarshipPrefix){
@@ -42,7 +42,7 @@
 
                     Log.WriteLine("Generating " + currentPath + "...");
 
-                    Directory.CreateDirectory(Path.GetDirectoryName(currentPath));
+                    Directory.CreateDirectory(Path.GetDirectoryName(currentPath) ?? sourceDirectory + "Scholarship/");
                     File.WriteAllText(currentPath, currentContent);
                 }   
             }
@@ -64,6 +64,7 @@
 
         public List<string> CombineLetters(string sourceDirectory, string outputDirectory)
         {
+            Log.WriteLine("Now checking if any letters need to be combined...");
             Dictionary<string, string> studentID2Path = new Dictionary<string, string>();
             string curFile;
             string studentID;
@@ -89,7 +90,7 @@
 
         public void CombineTwoLetters(string inputFile1, string inputFile2, string resultFile)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(resultFile));
+            Directory.CreateDirectory(Path.GetDirectoryName(resultFile) ?? "../");
             File.WriteAllText(resultFile, File.ReadAllText(inputFile1) + "\n" + File.ReadAllText(inputFile2));    
         }   
 
