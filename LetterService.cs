@@ -35,7 +35,20 @@
                     File.WriteAllText(currentPath, currentContent);
                 }   
             }
-        }        
+        }
+
+        public void ArchiveFiles(string sourceDirectory, string archiveDirectory){
+            foreach (string dirPath in Directory.GetDirectories(sourceDirectory, "*", SearchOption.AllDirectories))
+            {
+                Directory.CreateDirectory(dirPath.Replace(sourceDirectory, archiveDirectory));
+            }
+
+            foreach (string filePath in Directory.GetFiles(sourceDirectory, "*.txt",SearchOption.AllDirectories))
+            {
+                Console.WriteLine("Copying " + filePath);
+                File.Copy(filePath, filePath.Replace(sourceDirectory, archiveDirectory), true);
+            }
+        }           
             
     }
  }

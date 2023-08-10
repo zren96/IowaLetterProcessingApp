@@ -11,6 +11,7 @@
             string outputDirectory = baseDirectory + "Output/"; 
             LetterService myService = new LetterService();
             myService.FileGenerator(sourceDirectory);
+            myService.ArchiveFiles(sourceDirectory, archiveDirectory);
             Console.WriteLine("Done.");
         } 
     }
